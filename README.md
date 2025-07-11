@@ -1,2 +1,2 @@
-# fantastic-spoon
+# comment_fetcher
 youtubeとtwitchのコメントを取得し、参加整理も行えるウィンドウアプリケーション
