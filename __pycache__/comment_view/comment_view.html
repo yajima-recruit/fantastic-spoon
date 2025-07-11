@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>コメント表示</title>
+    <link rel="stylesheet" href="./comment_view.css" />
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script src="./comment_view.js"></script>
+    <script>
+        let ws;
+        const url = "ws://localhost:8000/ws?key=B";
+
+        function connect() {
+            ws = new WebSocket(url);
+
+            ws.onopen = () => {
+                console.log("接続成功（B）");
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                // コメントを追加
+                AddComment(data.username, data.message);
+            };
+
+            ws.onclose = () => {
+                console.log("接続が閉じられました。1秒後に再接続します...");
+                setTimeout(connect, 1000);
+            };
+
+            ws.onerror = (error) => {
+                console.error("WebSocket エラー:", error);
+                ws.close();
+            };
+        }
+
+        // 初回接続
+        connect();
+    </script>
+</body>
+
+</html>
